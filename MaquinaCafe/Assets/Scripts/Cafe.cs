@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cafe : MonoBehaviour
@@ -9,7 +10,7 @@ public class Cafe : MonoBehaviour
 
     public Cafe(RecetaCafe tipoCafe, Tamanios tamanioCafe, Estados estadoCafe, Endulzante endulzanteCafe)
     {
-        recetaCafe = tipoCafe;
+        recetaCafe = new RecetaCafe(tipoCafe);
         tamanio = tamanioCafe;
         estado = estadoCafe;
         endulzante = endulzanteCafe;
