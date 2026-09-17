@@ -35,6 +35,7 @@ public class MaquinaDeCafe : MonoBehaviour
                 recibo.MostrarCafe(cafe); 
                 CambiarEstado(Estados.Listo);
                 soundController.PlaySonido(audioClipSucces);
+                display.ActivarDisplayCanvas(true);
                 break;
 
                 

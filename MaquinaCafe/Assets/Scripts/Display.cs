@@ -8,6 +8,7 @@ public class Display : MonoBehaviour
 {
     [SerializeField] MaquinaDeCafe maquinaCafe;
     [SerializeField] Slider sliderCafe;
+    [SerializeField] GameObject displayCanvas;
     private RecetaCafe cafeSeleccionado;
     private Tamanios tamanioSeleccionado;
 
@@ -52,11 +53,17 @@ public class Display : MonoBehaviour
         TamanioSeleccionado(Tamanios.Grande);
     }
 
+    public void ActivarDisplayCanvas(bool isActive)
+    {
+        displayCanvas.SetActive(isActive);
+    }
+
     private void Confirmar() 
     {
         if (coffeeAlreadySelected && sizeAlreadySelected)
         {
             maquinaCafe.EmpezarCafe(cafeSeleccionado, tamanioSeleccionado);
+            ActivarDisplayCanvas(false);
             coffeeAlreadySelected = false;
             sizeAlreadySelected= false;
         }
