@@ -1,11 +1,18 @@
+using System.Collections;
 using System.Xml.Serialization;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Display : MonoBehaviour
 {
     [SerializeField] MaquinaDeCafe maquinaCafe;
+    [SerializeField] Slider sliderCafe;
     private RecetaCafe cafeSeleccionado;
     private Tamanios tamanioSeleccionado;
+
+    [SerializeField] TextMeshProUGUI textoEstado;
+    [SerializeField] TextMeshProUGUI cuentaRegresiva;
 
     bool coffeeAlreadySelected;
     bool sizeAlreadySelected;
@@ -53,5 +60,30 @@ public class Display : MonoBehaviour
             coffeeAlreadySelected = false;
             sizeAlreadySelected= false;
         }
+    }
+    public void CambiarEstadoDisplayed(string estado)
+    {
+        textoEstado.text = estado;
+    }
+    public IEnumerator CuentaRegresiva(int tiempoEspera, bool isServingCafe)
+    {
+        if (isServingCafe) EnableSliderCafe(true);
+        float amountToAdd = sliderCafe.maxValue / tiempoEspera;
+        for (int i = tiempoEspera; i > 0; i--)
+        {
+            cuentaRegresiva.text = i.ToString();
+            if (isServingCafe) SliderCafeFill(amountToAdd);
+            yield return new WaitForSeconds(1);
+        }
+        
+    }
+
+    public void EnableSliderCafe(bool enabled)
+    {
+        sliderCafe.gameObject.SetActive(enabled);
+    }
+    public void SliderCafeFill(float amount)
+    {
+        sliderCafe.value += amount;
     }
 }

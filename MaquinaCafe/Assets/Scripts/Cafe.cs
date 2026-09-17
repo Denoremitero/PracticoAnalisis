@@ -19,9 +19,10 @@ public class Cafe : MonoBehaviour
 public enum Estados
 {
     SinHacer,
-    Filtrado,
-    Mezclado,
-    Servido
+    Filtrando,
+    Mezclando,
+    Dispensando,
+    Listo
 }
 [System.Serializable]
 public enum Tamanios

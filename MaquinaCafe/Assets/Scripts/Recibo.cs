@@ -4,28 +4,54 @@ using UnityEngine.UI;
 public class Recibo : MonoBehaviour
 {
     [SerializeField] Text contenidoRecibo;
+    [SerializeField] private Transform contenido;
+    [SerializeField] private ReceiptLine prefabLinea;
     public void MostrarCafe(Cafe cafe)
     {
-        string recibo = "";
+        AgregarIngrediente(
+            "Tipo de cafe:",
+            "--------"
+            );
+        AgregarIngrediente(
+            cafe.recetaCafe.nombre,
+            "--------"
+            );
+        AgregarIngrediente(
+            "Tamaño de cafe:",
+            "-----"
+            );
+        AgregarIngrediente(
+            cafe.tamanio.ToString(),
+            "--------"
+            );
+        AgregarIngrediente(
+            "--------",
+            "--------");
+        AgregarIngrediente(
+            "Ingredientes:",
+            "--------");
+        AgregarIngrediente(
+        "Agua",
+        cafe.recetaCafe.cantidadAgua + " ml"
+        );
 
-        recibo += "===== CAFETERÍA =====\n";
-        recibo += $"Café: {cafe.recetaCafe.nombre}\n";
-        recibo += $"Tamaño: {cafe.tamanio}\n";
-        recibo += "\n";
-        recibo += "Ingredientes:\n";
-
-        recibo += $"Agua: {cafe.recetaCafe.cantidadAgua} ml\n";
-        recibo += $"Café: {cafe.recetaCafe.cantidadAgua} g\n";
+        AgregarIngrediente(
+            "Café",
+            cafe.recetaCafe.cantidadCafe + " g"
+        );
 
         foreach (Aniadido aniadido in cafe.recetaCafe.aniadidos)
         {
-            recibo += $"{aniadido.tipo}: {aniadido.cantidad}\n";
+            AgregarIngrediente(
+                aniadido.tipo.ToString(),
+                aniadido.cantidad.ToString()
+            );
         }
+    }
+    private void AgregarIngrediente(string nombre, string cantidad)
+    {
+        ReceiptLine linea = Instantiate(prefabLinea, contenido);
 
-        recibo += "\n";
-        recibo += "=====================\n";
-        recibo += "¡Gracias!";
-
-        contenidoRecibo.text = recibo;
+        linea.Configurar(nombre, cantidad);
     }
 }

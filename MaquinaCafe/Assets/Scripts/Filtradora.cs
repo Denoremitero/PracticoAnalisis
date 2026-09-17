@@ -1,21 +1,39 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class Filtradora : MonoBehaviour
 {
     [SerializeField] MaquinaDeCafe maquinaDeCafe;
+    [SerializeField] AudioClip audioClipFiltradora;
+    
     public Cafe FiltrarCafe(Cafe cafe)
     {
-        if (cafe.estado == Estados.Filtrado)
+        if (cafe.estado == Estados.Filtrando)
         {
-            Debug.Log("El cafe ya ha sido filtrado");
             return cafe;
         }
         Cafe cafeFiltrado = cafe;
         cafeFiltrado = SizeAdapt(cafeFiltrado);
-        cafeFiltrado.estado = Estados.Filtrado;
-        Debug.Log("El cafe se está filtrando");
-        maquinaDeCafe.SiguienteEtapa(cafeFiltrado);
+        cafeFiltrado.estado = Estados.Filtrando;
+        StartCoroutine(TiempoAEsperar(cafeFiltrado, audioClipFiltradora.length));
+        
         return cafeFiltrado;
+    }
+    private IEnumerator TiempoAEsperar(Cafe cafeFiltrado, float tiempoEsperar)
+    {
+        int tiempoEsperarInt = Convert.ToInt32(tiempoEsperar);
+        maquinaDeCafe.EmpezarCuentaRegresiva(tiempoEsperarInt, cafeFiltrado.estado);
+        maquinaDeCafe.CambiarEstado(cafeFiltrado.estado);
+
+        maquinaDeCafe.soundController.PlaySonido(audioClipFiltradora);
+
+        for (int i = tiempoEsperarInt; i > 0; i--)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        maquinaDeCafe.SiguienteEtapa(cafeFiltrado);
+
     }
     private Cafe SizeAdapt(Cafe cafe)
     {
